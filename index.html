@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zepeto - 323 Zems Gratuits 🎁</title>
+<meta name="description" content="Récupère 323 Zems gratuits sur Zepeto ! Entre ton pseudo et choisis ton offre.">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', -apple-system, Roboto, Arial, sans-serif; }
+  
+  html, body { min-height: 100%; }
+  
+  body {
+    background: linear-gradient(135deg, #ffd6f5 0%, #d4b3ff 50%, #a8d8ff 100%);
+    color: #2b1a4a;
+    padding: 20px 15px;
+    position: relative;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50px;
+    left: -50px;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255, 100, 200, 0.35), transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    pointer-events: none;
+  }
+  
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -80px;
+    right: -80px;
+    width: 260px;
+    height: 260px;
+    background: radial-gradient(circle, rgba(100, 200, 255, 0.35), transparent 70%);
+    border-radius: 50%;
+    z-index: -1;
+    pointer-events: none;
+  }
+  
+  .wrapper {
+    max-width: 720px;
+    margin: 0 auto;
+    position: relative;
+  }
+  
+  .logo {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 900;
+    color: #2b1a4a;
+    letter-spacing: -0.5px;
+  }
+  
+  .logo .spark { color: #ff3ea5; }
+  
+  .free-badge {
+    display: block;
+    width: fit-content;
+    margin: 0 auto 15px;
+    background: linear-gradient(90deg, #ff3ea5, #a855f7);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    padding: 8px 20px;
+    border-radius: 30px;
+    box-shadow: 0 6px 15px rgba(255, 62, 165, 0.4);
+    animation: pulse 1.8s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+  }
+  
+  h1 {
+    text-align: center;
+    font-size: 40px;
+    font-weight: 900;
+    color: #2b1a4a;
+    line-height: 1.1;
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+  }
+  
+  h1 .highlight {
+    background: linear-gradient(90deg, #ff3ea5, #a855f7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .subtitle {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #6b4a9a;
+    margin-bottom: 22px;
+  }
+  
+  .zems-card-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 20px;
+  }
+  
+  .zems-card {
+    width: 340px;
+    height: 210px;
+    background: linear-gradient(145deg, #a855f7 0%, #ff3ea5 100%);
+    border-radius: 24px;
+    padding: 24px 26px;
+    position: relative;
+    box-shadow: 0 15px 40px rgba(168, 85, 247, 0.45);
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    overflow: hidden;
+    transform: rotate(-2deg);
+    transition: transform 0.3s;
+  }
+  
+  .zems-card:hover { transform: rotate(0deg) scale(1.03); }
+  
+  .zems-card::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -30%;
+    width: 220px;
+    height: 220px;
+    background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  
+  .zems-card::after {
+    content: '✨';
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 22px;
+  }
+  
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .brand {
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  
+  .amount {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: #fff5b8;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  
+  .card-label {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 3px;
+    color: rgba(255,255,255,0.85);
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .card-emoji {
+    font-size: 40px;
+    margin-top: 5px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .form-box {
+    background: #fff;
+    border-radius: 24px;
+    padding: 26px 24px;
+    max-width: 560px;
+    margin: 0 auto;
+    box-shadow: 0 15px 45px rgba(120, 60, 200, 0.18);
+    border: 3px solid #fff;
+    position: relative;
+  }
+  
+  .form-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 900;
+    color: #2b1a4a;
+    margin-bottom: 6px;
+  }
+  
+  .form-subtitle {
+    text-align: center;
+    font-size: 13px;
+    color: #8a7aa8;
+    margin-bottom: 20px;
+  }
+  
+  .field-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 800;
+    color: #2b1a4a;
+    margin-bottom: 8px;
+  }
+  
+  .input-wrap {
+    position: relative;
+    margin-bottom: 18px;
+  }
+  
+  .input-wrap input {
+    width: 100%;
+    padding: 16px 55px 16px 18px;
+    border: 2px solid #e8d9ff;
+    border-radius: 16px;
+    font-size: 16px;
+    background: #faf6ff;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-weight: 600;
+    color: #2b1a4a;
+  }
+  
+  .input-wrap input::placeholder {
+    color: #b8a8d0;
+    font-weight: 500;
+  }
+  
+  .input-wrap input:focus {
+    outline: none;
+    border-color: #a855f7;
+    box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15);
+    background: #fff;
+  }
+  
+  .input-wrap input.error {
+    border-color: #ff3e6a;
+    animation: shake 0.3s;
+  }
+  
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  
+  .input-icon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+    pointer-events: none;
+  }
+  
+  .legal-text {
+    font-size: 10.5px;
+    color: #8a7aa8;
+    line-height: 1.55;
+    margin-bottom: 18px;
+    text-align: left;
+  }
+  
+  .legal-text a {
+    color: #a855f7;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+  
+  .continue-btn {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(90deg, #ff3ea5, #a855f7);
+    color: #fff;
+    font-size: 19px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.25s;
+    box-shadow: 0 10px 25px rgba(255, 62, 165, 0.45);
+    font-family: inherit;
+    text-transform: uppercase;
+  }
+  
+  .continue-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 35px rgba(255, 62, 165, 0.6);
+  }
+  
+  .continue-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .trust-row {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+  
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #6b4a9a;
+    background: #f5edff;
+    padding: 6px 12px;
+    border-radius: 20px;
+  }
+  
+  /* ===== Offer list ===== */
+  .offer-step {
+    display: none;
+    animation: fadeIn 0.5s;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .offer-step-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .offer-step-header .step-icon {
+    font-size: 60px;
+    margin-bottom: 8px;
+    display: block;
+    animation: bounce 1.2s infinite;
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    50% { transform: translateY(-10px) rotate(5deg); }
+  }
+  
+  .offer-step-header h2 {
+    font-size: 24px;
+    font-weight: 900;
+    color: #2b1a4a;
+    margin-bottom: 6px;
+  }
+  
+  .offer-step-header p {
+    font-size: 14px;
+    color: #6b4a9a;
+    font-weight: 600;
+  }
+  
+  .offer-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 22px;
+    padding: 0 40px;
+  }
+  
+  .progress-dot {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    flex-shrink: 0;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px #ccc;
+  }
+  
+  .progress-dot.done,
+  .progress-dot.active {
+    background: #a855f7;
+    box-shadow: 0 0 0 1px #a855f7;
+  }
+  
+  .progress-dot.empty {
+    background: #fff;
+    box-shadow: 0 0 0 1px #ccc;
+  }
+  
+  .progress-line {
+    flex: 1;
+    height: 5px;
+    background: #e0e0e0;
+    border-radius: 3px;
+    margin: 0 -2px;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .progress-line.filled { background: #a855f7; }
+  
+  #offerContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  #offerContainer > div {
+    background: #faf6ff;
+    border: 2px solid #e8d9ff;
+    border-radius: 16px;
+    padding: 4px;
+    transition: all 0.25s;
+  }
+  
+  #offerContainer > div:hover {
+    border-color: #a855f7;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(168, 85, 247, 0.2);
+  }
+  
+  #offerContainer a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    text-decoration: none;
+    color: #2b1a4a;
+    font-weight: 800;
+    font-size: 15px;
+    border-radius: 12px;
+    transition: all 0.2s;
+    gap: 12px;
+  }
+  
+  #offerContainer a::after {
+    content: '➜';
+    color: #a855f7;
+    font-size: 20px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+  
+  #offerContainer a:hover {
+    background: linear-gradient(90deg, #ff3ea5, #a855f7);
+    color: #fff;
+  }
+  
+  #offerContainer a:hover::after {
+    color: #fff;
+  }
+  
+  .loader-offers {
+    text-align: center;
+    padding: 30px 0;
+    color: #8a7aa8;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .loader-spinner {
+    border: 4px solid #f0e6ff;
+    border-top: 4px solid #a855f7;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 12px;
+  }
+  
+  @keyframes spin { to { transform: rotate(360deg); } }
+  
+  .no-offers {
+    text-align: center;
+    padding: 25px 15px;
+    color: #8a7aa8;
+    font-size: 14px;
+    font-weight: 600;
+    background: #faf6ff;
+    border-radius: 16px;
+    border: 2px dashed #e8d9ff;
+  }
+  
+  .footer {
+    text-align: center;
+    font-size: 10.5px;
+    color: #8a7aa8;
+    margin-top: 30px;
+    padding-bottom: 20px;
+    line-height: 1.7;
+  }
+  
+  .footer a {
+    color: #a855f7;
+    text-decoration: none;
+    margin: 0 6px;
+    font-weight: 600;
+  }
+  
+  .footer a:hover { text-decoration: underline; }
+  
+  @media (max-width: 600px) {
+    h1 { font-size: 28px; }
+    .zems-card { width: 290px; height: 180px; padding: 20px 22px; }
+    .brand { font-size: 20px; }
+    .amount { font-size: 36px; }
+    .card-emoji { font-size: 32px; }
+    .form-box { padding: 22px 18px; }
+    .continue-btn { font-size: 17px; padding: 16px; }
+    #offerContainer a { font-size: 14px; padding: 14px 15px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  
+  <div class="logo">reward<span class="spark">⚡</span>spark</div>
+  
+  <!-- ===== ÉTAPE 1 ===== -->
+  <div id="mainScreen">
+    
+    <span class="free-badge" data-i18n="badge"></span>
+    
+    <h1 data-i18n-html="title"></h1>
+    <p class="subtitle" data-i18n="subtitle"></p>
+    
+    <div class="zems-card-wrap">
+      <div class="zems-card">
+        <div class="card-top">
+          <div class="brand">ZEPETO</div>
+          <div class="amount">323</div>
+        </div>
+        <div class="card-emoji">💎</div>
+        <div class="card-label" data-i18n="cardLabel"></div>
+      </div>
+    </div>
+    
+    <div class="form-box">
+      
+      <div class="form-title" data-i18n="formTitle"></div>
+      <p class="form-subtitle" data-i18n="formSubtitle"></p>
+      
+      <label class="field-label" for="username" data-i18n="fieldLabel"></label>
+      <div class="input-wrap">
+        <input type="text" id="username" autocomplete="username" spellcheck="false">
+        <span class="input-icon">✨</span>
+      </div>
+      
+      <p class="legal-text" data-i18n-html="legal"></p>
+      
+      <button class="continue-btn" id="submitBtn" onclick="handleSubmit()" data-i18n="btnSubmit"></button>
+      
+      <div class="trust-row">
+        <div class="trust-item" data-i18n="trust1"></div>
+        <div class="trust-item" data-i18n="trust2"></div>
+        <div class="trust-item" data-i18n="trust3"></div>
+      </div>
+      
+    </div>
+    
+  </div>
+  
+  <!-- ===== ÉTAPE 2 ===== -->
+  <div id="offerScreen" class="offer-step">
+    <div class="form-box" style="padding: 28px 24px;">
+      
+      <div class="offer-step-header">
+        <span class="step-icon">🎯</span>
+        <h2 data-i18n="offerTitle"></h2>
+        <p data-i18n-html="offerSubtitle"></p>
+      </div>
+      
+      <div class="offer-progress">
+        <div class="progress-dot done">✓</div>
+        <div class="progress-line filled"></div>
+        <div class="progress-dot done">✓</div>
+        <div class="progress-line filled"></div>
+        <div class="progress-dot active">3</div>
+      </div>
+      
+      <div id="offerContainer">
+        <div class="loader-offers">
+          <div class="loader-spinner"></div>
+          <span data-i18n="loadingOffers"></span>
+        </div>
+      </div>
+      
+      <div class="trust-row" style="margin-top: 20px;">
+        <div class="trust-item" data-i18n="trust1"></div>
+        <div class="trust-item" data-i18n="trustSecured"></div>
+        <div class="trust-item" data-i18n="trustInstant"></div>
+      </div>
+      
+    </div>
+  </div>
+  
+  <!-- ===== Footer ===== -->
+  <div class="footer">
+    <a href="#" data-i18n="footerTerms"></a> · 
+    <a href="#" data-i18n="footerPrivacy"></a> · 
+    <a href="#" data-i18n="footerContact"></a>
+    <br>
+    <span data-i18n="footerRights"></span>
+    <br>
+    <span style="font-size:9.5px; color:#a898c8;" data-i18n="footerDisclaimer"></span>
+  </div>
+  
+</div>
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script type="text/javascript">
+  
+  // ============================================================
+  // 🌍 TRADUCTIONS (fr / en / es / de)
+  // ============================================================
+  const TRANSLATIONS = {
+    fr: {
+      lang: 'fr', dir: 'ltr',
+      title: 'Reçois <span class="highlight">323 Zems</span><br>sur Zepeto !',
+      subtitle: "Entre ton pseudo Zepeto et c'est parti 🚀",
+      badge: '🎉 100% GRATUIT 🎉',
+      cardLabel: 'ZEMS GRATUITS',
+      formTitle: '🎮 Ton compte Zepeto',
+      formSubtitle: "On a juste besoin de ton pseudo pour t'envoyer les Zems !",
+      fieldLabel: '👤 Pseudo Zepeto',
+      placeholder: '@ton_pseudo_zepeto',
+      legal: 'En continuant, tu confirmes avoir <strong>13 ans ou plus</strong> et tu acceptes les <a href="#">Conditions d\'utilisation</a> et la <a href="#">Politique de confidentialité</a>. RewardSpark est un site de récompenses gratuit. On ne demande jamais ton mot de passe Zepeto. Ton pseudo peut être partagé avec nos partenaires pour t\'envoyer des offres. Tu peux te désinscrire à tout moment.',
+      btnSubmit: '🎁 RÉCUPÉRER MES ZEMS',
+      trust1: '🔒 100% Sécurisé',
+      trust2: '⚡ Rapide',
+      trust3: '🎮 Sans mot de passe',
+      trustSecured: '✅ Vérifié',
+      trustInstant: '⚡ Instantané',
+      offerTitle: 'Dernière étape !',
+      offerSubtitle: 'Choisis une offre ci-dessous pour débloquer tes <strong>323 Zems</strong> 💎',
+      loadingOffers: 'Chargement des offres... ⏳',
+      noOffers: '😢 Aucune offre disponible pour le moment.<br>Reviens plus tard !',
+      errorOffers: '⚠️ Erreur de chargement des offres.<br>Vérifie ta connexion et réessaie.',
+      footerTerms: 'Conditions',
+      footerPrivacy: 'Confidentialité',
+      footerContact: 'Contact',
+      footerRights: '© 2025 RewardSpark. Tous droits réservés.',
+      footerDisclaimer: 'Non affilié à Zepeto ou Naver Corp.'
+    },
+    en: {
+      lang: 'en', dir: 'ltr',
+      title: 'Get <span class="highlight">323 Zems</span><br>on Zepeto!',
+      subtitle: "Enter your Zepeto username and let's go 🚀",
+      badge: '🎉 100% FREE 🎉',
+      cardLabel: 'FREE ZEMS',
+      formTitle: '🎮 Your Zepeto Account',
+      formSubtitle: "We just need your username to send you the Zems!",
+      fieldLabel: '👤 Zepeto Username',
+      placeholder: '@your_zepeto_username',
+      legal: 'By continuing, you confirm that you are <strong>13 years or older</strong> and agree to the <a href="#">Terms of Use</a> and <a href="#">Privacy Policy</a>. RewardSpark is a free rewards site. We never ask for your Zepeto password. Your username may be shared with our partners to send you offers. You can unsubscribe at any time.',
+      btnSubmit: '🎁 CLAIM MY ZEMS',
+      trust1: '🔒 100% Secure',
+      trust2: '⚡ Fast',
+      trust3: '🎮 No password needed',
+      trustSecured: '✅ Verified',
+      trustInstant: '⚡ Instant',
+      offerTitle: 'Last step!',
+      offerSubtitle: 'Choose an offer below to unlock your <strong>323 Zems</strong> 💎',
+      loadingOffers: 'Loading offers... ⏳',
+      noOffers: '😢 No offers available right now.<br>Come back later!',
+      errorOffers: '⚠️ Error loading offers.<br>Check your connection and try again.',
+      footerTerms: 'Terms',
+      footerPrivacy: 'Privacy',
+      footerContact: 'Contact',
+      footerRights: '© 2025 RewardSpark. All rights reserved.',
+      footerDisclaimer: 'Not affiliated with Zepeto or Naver Corp.'
+    },
+    es: {
+      lang: 'es', dir: 'ltr',
+      title: '¡Recibe <span class="highlight">323 Zems</span><br>en Zepeto!',
+      subtitle: 'Ingresa tu usuario de Zepeto y ¡vamos! 🚀',
+      badge: '🎉 100% GRATIS 🎉',
+      cardLabel: 'ZEMS GRATIS',
+      formTitle: '🎮 Tu cuenta de Zepeto',
+      formSubtitle: '¡Solo necesitamos tu usuario para enviarte los Zems!',
+      fieldLabel: '👤 Usuario de Zepeto',
+      placeholder: '@tu_usuario_zepeto',
+      legal: 'Al continuar, confirmas que tienes <strong>13 años o más</strong> y aceptas los <a href="#">Términos de uso</a> y la <a href="#">Política de privacidad</a>. RewardSpark es un sitio de recompensas gratuito. Nunca pedimos tu contraseña de Zepeto. Tu usuario puede ser compartido con nuestros socios para enviarte ofertas. Puedes darte de baja en cualquier momento.',
+      btnSubmit: '🎁 RECLAMAR MIS ZEMS',
+      trust1: '🔒 100% Seguro',
+      trust2: '⚡ Rápido',
+      trust3: '🎮 Sin contraseña',
+      trustSecured: '✅ Verificado',
+      trustInstant: '⚡ Instantáneo',
+      offerTitle: '¡Último paso!',
+      offerSubtitle: 'Elige una oferta abajo para desbloquear tus <strong>323 Zems</strong> 💎',
+      loadingOffers: 'Cargando ofertas... ⏳',
+      noOffers: '😢 No hay ofertas disponibles ahora.<br>¡Vuelve más tarde!',
+      errorOffers: '⚠️ Error al cargar ofertas.<br>Verifica tu conexión e inténtalo de nuevo.',
+      footerTerms: 'Términos',
+      footerPrivacy: 'Privacidad',
+      footerContact: 'Contacto',
+      footerRights: '© 2025 RewardSpark. Todos los derechos reservados.',
+      footerDisclaimer: 'No afiliado a Zepeto o Naver Corp.'
+    },
+    de: {
+      lang: 'de', dir: 'ltr',
+      title: 'Erhalte <span class="highlight">323 Zems</span><br>auf Zepeto!',
+      subtitle: 'Gib deinen Zepeto-Namen ein und los geht\'s 🚀',
+      badge: '🎉 100% GRATIS 🎉',
+      cardLabel: 'GRATIS ZEMS',
+      formTitle: '🎮 Dein Zepeto-Konto',
+      formSubtitle: 'Wir brauchen nur deinen Namen, um dir die Zems zu schicken!',
+      fieldLabel: '👤 Zepeto-Benutzername',
+      placeholder: '@dein_zepeto_name',
+      legal: 'Indem du fortfährst, bestätigst du, dass du <strong>13 Jahre oder älter</strong> bist und stimmst den <a href="#">Nutzungsbedingungen</a> und der <a href="#">Datenschutzrichtlinie</a> zu. RewardSpark ist eine kostenlose Belohnungsseite. Wir fragen niemals nach deinem Zepeto-Passwort. Dein Benutzername kann mit unseren Partnern geteilt werden, um dir Angebote zu senden. Du kannst dich jederzeit abmelden.',
+      btnSubmit: '🎁 MEINE ZEMS ABHOLEN',
+      trust1: '🔒 100% Sicher',
+      trust2: '⚡ Schnell',
+      trust3: '🎮 Kein Passwort nötig',
+      trustSecured: '✅ Verifiziert',
+      trustInstant: '⚡ Sofort',
+      offerTitle: 'Letzter Schritt!',
+      offerSubtitle: 'Wähle unten ein Angebot, um deine <strong>323 Zems</strong> freizuschalten 💎',
+      loadingOffers: 'Angebote werden geladen... ⏳',
+      noOffers: '😢 Derzeit keine Angebote verfügbar.<br>Komm später wieder!',
+      errorOffers: '⚠️ Fehler beim Laden der Angebote.<br>Überprüfe deine Verbindung und versuche es erneut.',
+      footerTerms: 'Bedingungen',
+      footerPrivacy: 'Datenschutz',
+      footerContact: 'Kontakt',
+      footerRights: '© 2025 RewardSpark. Alle Rechte vorbehalten.',
+      footerDisclaimer: 'Nicht mit Zepeto oder Naver Corp. verbunden.'
+    }
+  };
+  
+  // ============================================================
+  // 🌍 DÉTECTION DE LA LANGUE DU NAVIGATEUR
+  // ============================================================
+  function detectBrowserLang() {
+    // Priorité 1 : URL ?lang=xx
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = (urlParams.get('lang') || '').toLowerCase().substring(0, 2);
+    if (urlLang && TRANSLATIONS[urlLang]) return urlLang;
+    
+    // Priorité 2 : navigateur (navigator.languages puis navigator.language)
+    const browserLangs = [];
+    if (navigator.languages && navigator.languages.length) {
+      browserLangs.push(...navigator.languages);
+    }
+    if (navigator.language) browserLangs.push(navigator.language);
+    
+    for (const bl of browserLangs) {
+      const code = (bl || '').toLowerCase().split(/[-_]/)[0];
+      if (TRANSLATIONS[code]) return code;
+    }
+    
+    // Fallback
+    return 'en';
+  }
+  
+  // ============================================================
+  // 🌍 APPLIQUER LA LANGUE
+  // ============================================================
+  let currentLang = 'en';
+  
+  function applyLanguage(langCode) {
+    if (!TRANSLATIONS[langCode]) langCode = 'en';
+    currentLang = langCode;
+    const t = TRANSLATIONS[langCode];
+    
+    document.documentElement.lang = t.lang;
+    document.documentElement.dir = t.dir;
+    
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    
+    document.querySelectorAll('[data-i18n-html]').forEach(el => {
+      const key = el.getAttribute('data-i18n-html');
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    
+    const input = document.getElementById('username');
+    if (input && t.placeholder) input.placeholder = t.placeholder;
+    
+    const titles = {
+      fr: 'Zepeto - 323 Zems Gratuits 🎁',
+      en: 'Zepeto - 323 Free Zems 🎁',
+      es: 'Zepeto - 323 Zems Gratis 🎁',
+      de: 'Zepeto - 323 Gratis Zems 🎁'
+    };
+    document.title = titles[langCode] || titles.en;
+  }
+  
+  // ============================================================
+  // ⚙️ CONFIGURATION CPA
+  // ============================================================
+  const API_BASE = "https://dtvpp42hfuyb2.cloudfront.net/public/offers/feed.php";
+  const API_USER_ID = "141902";
+  const API_KEY = "514112dda72e533b2db39a8e615341e9";
+  const NUM_OFFERS = 5;
+  
+  function buildOfferUrl(username) {
+    const s1 = encodeURIComponent(username);
+    return API_BASE 
+      + "?user_id=" + API_USER_ID 
+      + "&api_key=" + API_KEY 
+      + "&s1=" + s1 
+      + "&s2=&callback=?";
+  }
+  
+  // ============================================================
+  // Validation
+  // ============================================================
+  function isValidUsername(username) {
+    return /^[a-zA-Z0-9_.]{3,20}$/.test(username);
+  }
+  
+  // ============================================================
+  // Étape 1 : Soumission
+  // ============================================================
+  function handleSubmit() {
+    const input = document.getElementById('username');
+    const submitBtn = document.getElementById('submitBtn');
+    let username = input.value.trim();
+    
+    if (username.startsWith('@')) username = username.substring(1);
+    
+    if (!isValidUsername(username)) {
+      input.classList.add('error');
+      input.focus();
+      setTimeout(() => input.classList.remove('error'), 600);
+      return;
+    }
+    
+    submitBtn.disabled = true;
+    submitBtn.textContent = '...';
+    
+    try {
+      const users = JSON.parse(localStorage.getItem('captured_usernames') || '[]');
+      users.push({ 
+        username, 
+        offer: 'zepeto_323_zems', 
+        lang: currentLang,
+        date: new Date().toISOString() 
+      });
+      localStorage.setItem('captured_usernames', JSON.stringify(users));
+    } catch(e) {}
+    
+    document.getElementById('mainScreen').style.display = 'none';
+    document.getElementById('offerScreen').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    loadOffers(username);
+  }
+  
+  // ============================================================
+  // Étape 2 : Offres CPA
+  // ============================================================
+  function loadOffers(username) {
+    const $container = $("#offerContainer");
+    const t = TRANSLATIONS[currentLang];
+    const offerUrl = buildOfferUrl(username);
+    
+    $container.html(
+      '<div class="loader-offers">' +
+      '<div class="loader-spinner"></div>' +
+      '<span>' + t.loadingOffers + '</span>' +
+      '</div>'
+    );
+    
+    $.getJSON(offerUrl, function(offers) {
+      $container.empty();
+      
+      if (!offers || offers.length === 0) {
+        $container.html('<div class="no-offers">' + t.noOffers + '</div>');
+        return;
+      }
+      
+      offers = offers.splice(0, NUM_OFFERS);
+      
+      var html = '';
+      $.each(offers, function(key, offer) {
+        html += '<div><a href="' + offer.url + '" target="_blank" rel="noopener" title="' 
+              + (offer.conversion || '') + '">' 
+              + (offer.anchor || 'Offre') 
+              + '</a></div>';
+      });
+      
+      $container.append(html);
+    }).fail(function() {
+      $container.html('<div class="no-offers">' + t.errorOffers + '</div>');
+    });
+  }
+  
+  // ============================================================
+  // 🚀 INITIALISATION
+  // ============================================================
+  $(function() {
+    // Détection automatique de la langue du navigateur
+    const lang = detectBrowserLang();
+    console.log('🌍 Langue détectée:', lang);
+    
+    // Applique la langue
+    applyLanguage(lang);
+    
+    // Events
+    document.getElementById('username').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleSubmit();
+    });
+    
+    document.getElementById('username').addEventListener('input', (e) => {
+      e.target.classList.remove('error');
+    });
+  });
+  
+</script>
+
+</body>
+</html>
